@@ -81,6 +81,7 @@ class Net:
                 self.EntryNeys.append(EnterNey(self.digits[digit][0].crop((j, i, j+step, i+step)), self.__back))
         for i in self.__Neys:
             i.get_input(self.EntryNeys)
+        return self.digits[digit][1]
 
     def activate(self, func):
         if func() < 40:
@@ -95,10 +96,10 @@ class Net:
         input_sum = 0
         fnt = ImageFont.truetype('arialbi.ttf', 40)
         for i in self.__Neys:
-            col = (int(coconut) * self.__Neys.index(i)+20, 500 - int(self.activate(i.transit_func)) * 2,
+            col = (int(coconut) * self.__Neys.index(i)+20, 500 - int(self.activate(i.transit_func)/2),
                    int(coconut) * (self.__Neys.index(i)+1)-20, 500)
             draw.rectangle(col, rndcls[self.__Neys.index(i)])
-            draw.text((round(col[0] + (col[2] - col[0]) / 2) - 10, col[1] + (col[3] - col[1])/2), str(i.Value), (0, 0, 0), fnt)
+            draw.text((round(col[0] + (col[2] - col[0]) / 2) - 10, 400), str(i.Value), (0, 0, 0), fnt)
             input_sum += self.activate(i.transit_func)
         end_degree = 0
         for i in self.__Neys:
@@ -110,7 +111,7 @@ class Net:
         return img
 
     def teach(self, right):
-        teaching_koeff = -0.1
+        teaching_koeff = -0.01
         for i in self.__Neys:
             if i.Value == int(right):
                 i.correct_weight(teaching_koeff * -1)
@@ -122,8 +123,11 @@ class Net:
         for i in self.__Neys:
             if self.activate(i.transit_func) > result[1]:
                 result[0] = i.Value
-                result[1] = i.transit_func()
-        return result[0]
+                result[1] = round(i.transit_func())
+        return result
+
+    def retneys(self):
+        return self.__Neys
 
 # from random import randint
 #
@@ -146,4 +150,17 @@ class Net:
 # p = Image.open('qwe.png')
 # n = Net(p, 40, 20, 80, (183, 111, 11, 255))
 # n.fill_network(0)
-# print(n.decide())
+# temp = n.picture.copy()
+# for i in range(len(n.digits)):
+#     rec = n.fill_network(i)
+#     ns = n.retneys()
+#     qwe = [round(x.transit_func()) for x in ns]
+#     print(qwe)
+# n.teach(1)
+# print ('_______________________________')
+# for i in range(len(n.digits)):
+#     rec = n.fill_network(i)
+#     ns = n.retneys()
+#     qwe = [round(x.transit_func()) for x in ns]
+#     print(qwe)
+

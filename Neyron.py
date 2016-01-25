@@ -31,7 +31,8 @@ class EnterNey(Ney):
         k = 0
         for i in range(pic.size[0]):
             for j in range(pic.size[0]):
-                self._Inputs[k] = sum(pic.getpixel((i, j))) / (sum(back) * pow(pic.size[0], 2))
+                curr = sum(pic.getpixel((i, j)))
+                self._Inputs[k] = 1 - min(curr, sum(back)) / max(curr, sum(back))
                 k += 1
 
 
