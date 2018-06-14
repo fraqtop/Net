@@ -1,35 +1,35 @@
 import random
 
 
-class Ney:
+class Neuron:
     def __init__(self):
         self.output = 0
         self.inputs = [random.random() for i in range(100)]
 
 
-class MainNey(Ney):
-    def __init__(self, newvalue):
+class MainNeuron(Neuron):
+    def __init__(self, new_value):
         super().__init__()
-        self.Value = newvalue
+        self.value = new_value
         self.__weights = [random.random() for i in range(100)]
 
-    def correct_weight(self, koeff):
+    def correct_weight(self, k):
         for i in range(len(self.__weights)):
-            self.__weights[i] += self.inputs[i] * koeff
+            self.__weights[i] += self.inputs[i] * k
 
     def process(self):
         self.output = 0
         for i in range(len(self.__weights)):
             self.output += float(self.inputs[i] * self.__weights[i])
 
-    def save(self, fstream):
+    def save(self, file_stream):
         for i in self.__weights:
-            fstream.write(str(i)+' ')
-        fstream.write('\n')
+            file_stream.write(str(i)+' ')
+        file_stream.write('\n')
 
-    def getweights(self):
+    def get_weights(self):
         return self.__weights
 
-    def get_wghts(self, wght_lst):
-        for i in range(len(wght_lst)):
-            self.__weights[i] = float(wght_lst[i])
+    def set_weights(self, weights):
+        for i in range(len(weights)):
+            self.__weights[i] = float(weights[i])
